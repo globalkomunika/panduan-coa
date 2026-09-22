@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan Uji COA Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gk-ui.css">
+</head>
+<body>
+
+<div class="book">
+
+<nav class="toc">
+  <div class="toc__brand">GK Komunika</div>
+  <p class="toc__title">Panduan Uji<br>COA Marketplace</p>
+
+  <div class="toc__group">Pembuka</div>
+  <a href="#bab-0">Sebelum mulai</a>
+
+  <div class="toc__group">Sembilan langkah</div>
+  <a href="#l1">1 · Master PT</a>
+  <a href="#l2">2 · COA Marketplace</a>
+  <a href="#l3">3 · Master Sumber Data</a>
+  <a href="#l4">4 · Master Type COA</a>
+  <a href="#l5">5 · COA Accounts</a>
+  <a href="#l6">6 · Pemilahan Label</a>
+  <a href="#l7">7 · Assign COA</a>
+  <a href="#l8">8 · View Data COA</a>
+  <a href="#l9">9 · Export Data COA</a>
+
+  <div class="toc__group">Penutup</div>
+  <a href="#rangkuman">Rangkuman kondisi</a>
+  <a href="#bab-10">Yang belum bisa diuji</a>
+</nav>
+
+<main class="pages">
+
+<header class="cover">
+  <div class="cover__eyebrow">Panduan Pengisian &amp; Pengujian</div>
+  <h1>COA Marketplace<br>dari kosong sampai berkas Odoo</h1>
+  <p>
+    Sembilan layar, berurutan, dengan nilai yang sudah disiapkan untuk diketik.
+    Panduan ini memakai <strong>data nyata yang ada di lingkungan development sekarang</strong> —
+    bukan contoh karangan — jadi angka yang Anda lihat di layar seharusnya sama persis
+    dengan yang tertulis di sini.
+  </p>
+  <div class="cover__meta">
+    <div><strong>Untuk</strong>Tim Akunting &amp; Finance</div>
+    <div><strong>Lingkungan</strong>Development</div>
+    <div><strong>Perkiraan waktu</strong>25–35 menit</div>
+    <div><strong>Versi</strong>22 September 2026</div>
+  </div>
+</header>
+
+<!-- ============================================================== BAB 0 ==== -->
+<section class="chapter" id="bab-0">
+  <div class="chapter__no">Pembuka</div>
+  <h2>Sebelum mulai</h2>
+
+  <p class="lead">
+    Seluruh konfigurasi COA sudah dikosongkan. Yang tersisa adalah data invoice hasil impor,
+    dan itulah bahan kerja Anda.
+  </p>
+
+  <h3>Invoice yang sudah masuk</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th>Marketplace</th><th class="num">Invoice</th><th>Periode</th><th>Sudah punya channel?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tokopedia</strong></td><td class="num">1</td><td>30 Agu 2026</td><td class="ok">Ya — TikTok Tokopedia GK</td></tr>
+        <tr><td>Shopify</td><td class="num">5</td><td>2 Agu 2026</td><td class="bad">Belum</td></tr>
+        <tr><td>Blibli</td><td class="num">4</td><td>10–21 Agu 2026</td><td class="bad">Belum</td></tr>
+        <tr><td>Shopee</td><td class="num">2</td><td>1 Agu 2026</td><td class="bad">Belum</td></tr>
+        <tr><td>Lazada</td><td class="num">1</td><td>5 Agu 2026</td><td class="bad">Belum</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--warn">
+    <div class="note__label">Baca ini dulu, supaya tidak bingung di langkah 7</div>
+    <p>
+      Sebuah invoice baru bisa diproses Assign COA kalau ia sudah <strong>tercocokkan ke Order
+      Core</strong> — dari situlah channel-nya diketahui, dan channel yang menentukan PT. Dari 13
+      invoice, <strong>baru satu yang tercocokkan</strong>.
+    </p>
+    <p>
+      Jadi panduan ini berjalan di jalur <strong>TikTok Tokopedia GK</strong>. Dua belas invoice lain
+      tetap tersimpan dan tetap muncul di Report Finance, tapi belum akan ikut terproses —
+      dan itu bukan kesalahan pengisian Anda.
+    </p>
+  </div>
+
+  <h3>Baris yang akan Anda ikuti sampai akhir</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <tbody>
+        <tr><td style="width:190px"><strong>Invoice</strong></td><td><code>585807188020200664</code> · 30 Agustus 2026</td></tr>
+        <tr><td><strong>Channel</strong></td><td>TikTok Tokopedia GK</td></tr>
+        <tr><td><strong>Produk</strong></td><td>Singapore Malaysia Thailand 3 Days - 3GB/Days Unlimited</td></tr>
+        <tr><td><strong>SKU</strong></td><td><code>GK-SGMY-3-3</code> · qty 1</td></tr>
+        <tr><td><strong>Vendor · Kategori</strong></td><td><strong>MM</strong> · eSIM</td></tr>
+        <tr><td><strong>Harga jual</strong></td><td>99.000</td></tr>
+        <tr><td><strong>Nett Sales</strong></td><td>88.226</td></tr>
+        <tr><td><strong>HPP</strong></td><td><em>kosong</em> — dan memang tidak akan pernah ada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Kenapa vendornya penting</div>
+    <p>
+      Vendornya <strong>MM</strong>. Biaya vendor MM dihitung dari pemakaian data per ICCID dan tidak
+      bisa diatribusikan ke baris pesanan, sehingga HPP-nya tidak akan pernah terisi. Karena itu
+      baris ini lewat <strong>jalur MM</strong>: ia hanya butuh akun <strong>Utang</strong>, bukan
+      akun Nett Sales + HPP.
+    </p>
+    <p>
+      Akibatnya di langkah 4 dan 5 Anda cukup membuat satu akun untuk sisi penjualan — dan
+      justru <strong>jangan</strong> membuat akun Nett Sales, karena akun Sales akan mengalahkan
+      akun Utang dan Anda tidak akan melihat jalur MM bekerja.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 1 == -->
+<section class="chapter" id="l1">
+  <div class="chapter__no">Langkah 1</div>
+  <h2><span class="step__no">1</span>Master PT</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Master PT</div>
+
+  <p>Badan usaha yang akan menaungi transaksinya. Cukup namanya.</p>
+
+  <div class="screen">
+    <div class="screen__cap">Master PT <span>— klik Tambah PT</span></div>
+    <div class="screen__scroll">
+      <div class="gk-app" data-active="pt">
+        <div class="gk-card gk-card--tight">
+          <div class="gk-crumb"><h6>Master PT</h6>
+            <div class="gk-crumb__r"><span class="gk-badge gk-badge--primary">Master PT</span></div></div>
+        </div>
+        <div class="gk-card">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px">
+            <div class="gk-input gk-input--ph" style="max-width:280px">Cari nama PT…</div>
+            <div style="flex:1"></div>
+            <span class="gk-btn gk-btn--primary">+ Tambah PT</span>
+          </div>
+          <table class="gk-tbl gk-tbl--in-card">
+            <thead><tr><th>Nama PT</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody><tr><td colspan="3" style="text-align:center;padding:34px;color:#98a4ae">Belum ada PT.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen__cap">Tambah PT <span>— isi seperti ini</span></div>
+    <div class="screen__scroll">
+      <div class="gk-modal-stage" style="min-width:560px">
+        <div class="gk-modal">
+          <div class="gk-modal__h">Tambah PT <span>&times;</span></div>
+          <div class="gk-modal__b">
+            <div>
+              <span class="gk-label">Nama PT</span>
+              <div class="gk-input gk-input--typed">PT Adventure Tour &amp; Travel</div>
+              <p class="fieldnote">Nama resmi badan usaha. Bebas — yang penting Anda mengenalinya nanti.</p>
+            </div>
+            <div>
+              <span class="gk-label">Status</span>
+              <div class="gk-toggle" style="margin-top:4px"><span class="gk-toggle__track"></span> Aktif</div>
+            </div>
+          </div>
+          <div class="gk-modal__f">
+            <span class="gk-btn gk-btn--primary gk-btn--sm">Simpan</span>
+            <span class="gk-btn gk-btn--light gk-btn--sm">Batal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <p>Satu baris di tabel: <strong>PT Adventure Tour &amp; Travel</strong>, status Aktif.</p>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 2 == -->
+<section class="chapter" id="l2">
+  <div class="chapter__no">Langkah 2</div>
+  <h2><span class="step__no">2</span>COA Marketplace</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> COA Marketplace</div>
+
+  <p>
+    Menentukan transaksi sebuah toko masuk pembukuan PT yang mana. Satu marketplace hanya boleh
+    dipetakan ke satu PT.
+  </p>
+
+  <div class="screen">
+    <div class="screen__cap">Petakan Marketplace ke PT <span>— isi ketiganya</span></div>
+    <div class="screen__scroll">
+      <div class="gk-modal-stage" style="min-width:620px">
+        <div class="gk-modal">
+          <div class="gk-modal__h">Petakan Marketplace ke PT <span>&times;</span></div>
+          <div class="gk-modal__b">
+            <div>
+              <span class="gk-label">Marketplace</span>
+              <div class="gk-select gk-select--typed">TikTok Tokopedia GK</div>
+              <p class="fieldnote">
+                Pilih yang ini. Marketplace lain boleh dipetakan juga, tapi invoice-nya belum
+                tercocokkan ke Order Core sehingga belum akan terproses.
+              </p>
+            </div>
+            <div>
+              <span class="gk-label">PT</span>
+              <div class="gk-select gk-select--typed">PT Adventure Tour &amp; Travel</div>
+            </div>
+            <div>
+              <span class="gk-label">Nama Partner Odoo</span>
+              <div class="gk-input gk-input--typed">Tokopedia GK</div>
+              <p class="fieldnote">
+                Nama toko <strong>sebagaimana dikenal Odoo</strong>. Belum dipakai sampai langkah 9,
+                tapi Export akan menahan berkas kalau kolom ini kosong — jadi isi sekarang.
+              </p>
+            </div>
+          </div>
+          <div class="gk-modal__f">
+            <span class="gk-btn gk-btn--primary gk-btn--sm">Simpan</span>
+            <span class="gk-btn gk-btn--light gk-btn--sm">Batal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <p>
+      Satu baris pemetaan: <strong>TikTok Tokopedia GK → PT Adventure Tour &amp; Travel</strong>.
+      Marketplace itu tidak lagi bisa dipilih untuk PT lain.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 3 == -->
+<section class="chapter" id="l3">
+  <div class="chapter__no">Langkah 3</div>
+  <h2><span class="step__no">3</span>Master Sumber Data</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Master Sumber Data</div>
+
+  <p>
+    Sumber Data menentukan <strong>dari mana angka sebuah baris jurnal diambil</strong>.
+    Tiga sudah ada bawaan dan tidak bisa dihapus — itu memang keadaan awalnya, bukan sisa data.
+  </p>
+
+  <div class="screen">
+    <div class="screen__cap">Master Sumber Data <span>— keadaan awal</span></div>
+    <div class="screen__scroll">
+      <div class="gk-app" data-active="src">
+        <div class="gk-card gk-card--tight">
+          <div class="gk-crumb"><h6>Master Sumber Data</h6>
+            <div class="gk-crumb__r"><span class="gk-badge gk-badge--primary">Master Sumber Data</span></div></div>
+        </div>
+        <div class="gk-card">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px">
+            <div class="gk-input gk-input--ph" style="max-width:260px">Cari nama Sumber Data…</div>
+            <div class="gk-select" style="max-width:200px">Semua bentuk</div>
+            <div style="flex:1"></div>
+            <span class="gk-btn gk-btn--primary">+ Tambah Sumber Data</span>
+          </div>
+          <table class="gk-tbl gk-tbl--in-card">
+            <thead><tr><th>Nama Sumber Data</th><th>Angkanya dari</th><th>Sisi</th><th class="t-num">Dipakai</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="t-name">Nett Sales <span class="gk-badge gk-badge--gray">Bawaan</span></td>
+                  <td class="t-mono">nett_sales</td><td><span class="gk-badge gk-badge--info">Kredit</span></td>
+                  <td class="t-num">0 Type · 0 label</td><td><span class="gk-badge gk-badge--success">Aktif</span></td></tr>
+              <tr><td class="t-name">HPP <span class="gk-badge gk-badge--gray">Bawaan</span></td>
+                  <td class="t-mono">hpp_amount</td><td><span class="gk-badge gk-badge--warning">Debit</span></td>
+                  <td class="t-num">0 Type · 0 label</td><td><span class="gk-badge gk-badge--success">Aktif</span></td></tr>
+              <tr><td class="t-name">Utang <span class="gk-badge gk-badge--gray">Bawaan</span></td>
+                  <td class="t-mono">nett_sales</td><td><span class="gk-badge gk-badge--info">Kredit</span></td>
+                  <td class="t-num">0 Type · 0 label</td><td><span class="gk-badge gk-badge--success">Aktif</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Tambahkan dua</h3>
+
+  <p>Klik <strong>+ Tambah Sumber Data</strong>, ulangi dua kali dengan isian berikut:</p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th>Nama Sumber Data</th><th>Angkanya diambil dari</th><th>Sisi jurnal</th></tr></thead>
+      <tbody>
+        <tr><td><span class="typed">Beban Komisi Marketplace</span></td><td>Potongan marketplace</td><td>Debit</td></tr>
+        <tr><td><span class="typed">Ongkos Kirim</span></td><td>Potongan marketplace</td><td>Debit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="screen">
+    <div class="screen__cap">Tambah Sumber Data <span>— contoh yang pertama</span></div>
+    <div class="screen__scroll">
+      <div class="gk-modal-stage" style="min-width:640px">
+        <div class="gk-modal">
+          <div class="gk-modal__h">Tambah Sumber Data <span>&times;</span></div>
+          <div class="gk-modal__b">
+            <div>
+              <span class="gk-label">Nama Sumber Data</span>
+              <div class="gk-input gk-input--typed">Beban Komisi Marketplace</div>
+              <p class="fieldnote">Nama ini yang muncul di dropdown Master Type COA. Pakai istilah pembukuan.</p>
+            </div>
+            <div>
+              <span class="gk-label">Keterangan (opsional)</span>
+              <div class="gk-input gk-input--ph">Boleh dikosongkan</div>
+            </div>
+            <div>
+              <span class="gk-label">Angkanya diambil dari</span>
+              <div class="gk-select gk-select--typed">Potongan marketplace</div>
+              <p class="fieldnote">
+                Angkanya dikumpulkan dari label potongan yang Anda pilah di langkah 6 —
+                bukan dari satu kolom baris produk.
+              </p>
+            </div>
+            <div>
+              <span class="gk-label">Sisi jurnal</span>
+              <div class="gk-select gk-select--typed">Debit</div>
+              <p class="fieldnote">Debit — mengurangi pendapatan atau menambah beban.</p>
+            </div>
+            <div>
+              <span class="gk-label">Status</span>
+              <div class="gk-toggle" style="margin-top:4px"><span class="gk-toggle__track"></span> Aktif</div>
+            </div>
+          </div>
+          <div class="gk-modal__f">
+            <span class="gk-btn gk-btn--primary gk-btn--sm">Tambah Sumber Data</span>
+            <span class="gk-btn gk-btn--light gk-btn--sm">Batal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Kalau Anda memilih "Kolom baris produk"</div>
+    <p>
+      Muncul dropdown <strong>Kolom yang dibaca</strong> berisi lima pilihan. Itu daftar tertutup —
+      hanya kolom yang datanya memang terisi saat upload. Sumber Data yang menunjuk kolom kosong
+      akan selalu menghasilkan nol <em>tanpa satu pun pesan error</em>, dan baru ketahuan setelah
+      jurnalnya salah di Odoo. Untuk panduan ini pilih <strong>Potongan marketplace</strong>.
+    </p>
+  </div>
+
+  <h3>Kondisi di layar ini, dan kenapa begitu</h3>
+
+  <h4>Kenapa Nett Sales, HPP, dan Utang sudah ada padahal belum Anda buat?</h4>
+  <p>
+    Ketiganya bukan konfigurasi, melainkan <strong>kosakata engine</strong>. Proses Assign COA
+    menyebut ketiganya langsung di kode untuk memutuskan sebuah baris produk layak diproses atau
+    tidak:
+  </p>
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:180px">Jalur</th><th>Syarat akunnya</th><th>Untuk baris seperti apa</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Jalur standar</strong></td><td>Butuh akun <strong>Nett Sales</strong> <em>dan</em> <strong>HPP</strong></td><td>Vendor biasa — HPP-nya memang ada</td></tr>
+        <tr><td><strong>Jalur MM</strong></td><td>Cukup akun <strong>Utang</strong></td><td>Vendor MM — HPP-nya tidak akan pernah ada</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Kalau ketiganya dihapus, engine tidak akan menemukan akun untuk jalur mana pun dan
+    <strong>setiap baris dilewati diam-diam</strong> — tanpa pesan error, tanpa alasan yang bisa
+    dibaca. Karena itu ketiganya dikunci: tombol hapusnya tidak ditampilkan, dan angka serta sisi
+    jurnalnya tidak bisa diubah. Namanya boleh dirapikan.
+  </p>
+  <p>
+    Jadi &ldquo;kosong&rdquo; untuk layar ini memang <strong>tiga baris</strong>, bukan nol.
+  </p>
+
+  <h4>Kenapa yang lain harus Anda tambahkan sendiri?</h4>
+  <p>
+    Karena hanya tim Akunting yang tahu jawabannya. Potongan bernama
+    <em>&ldquo;Biaya Administrasi (termasuk PPN 11%)&rdquo;</em> itu komisi; <em>&ldquo;Total subsidi
+    dari Blibli&rdquo;</em> justru uang masuk; <em>&ldquo;PPh 22&rdquo;</em> pajak. Sistem tidak bisa
+    menyimpulkannya dari nama kolom.
+  </p>
+  <p>
+    Dulu daftar ini <strong>dikunci di kode</strong> — hanya tiga nilai — sehingga setiap angka baru
+    yang perlu dijurnal menuntut rilis aplikasi. Sekarang Anda menambahnya sendiri, dan langsung
+    bisa dipakai di Master Type COA tanpa menunggu siapa pun.
+  </p>
+
+  <h4>Kenapa dropdown &ldquo;Kolom yang dibaca&rdquo; cuma berisi lima?</h4>
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:190px">Kolom</th><th>Isinya</th></tr></thead>
+      <tbody>
+        <tr><td><code>nett_sales</code></td><td>Nilai penjualan bersih setelah potongan marketplace</td></tr>
+        <tr><td><code>hpp_amount</code></td><td>Harga pokok penjualan dari vendor</td></tr>
+        <tr><td><code>gross_price</code></td><td>Harga jual sebelum potongan apa pun</td></tr>
+        <tr><td><code>commission_amount</code></td><td>Total potongan marketplace yang dialokasikan ke baris ini</td></tr>
+        <tr><td><code>margin_amount</code></td><td>Nett Sales dikurangi HPP</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Kelimanya adalah kolom yang <strong>datanya memang terisi</strong> saat file marketplace
+    diupload. Daftarnya sengaja tertutup: Sumber Data yang menunjuk kolom kosong akan selalu
+    menghasilkan <strong>nol tanpa satu pun pesan error</strong>, dan baru ketahuan setelah
+    jurnalnya salah di Odoo.
+  </p>
+
+  <div class="note note--warn">
+    <div class="note__label">Kenapa Ongkir tidak ada di dropdown itu?</div>
+    <p>
+      Karena <strong>ongkir bukan kolom</strong>. Di tabel baris produk tidak ada kolom bernama
+      ongkir sama sekali — angkanya tersimpan sebagai <strong>entri di daftar potongan</strong>
+      milik invoice, bersama komisi, pajak, dan subsidi.
+    </p>
+    <p>
+      Karena itu Ongkos Kirim dibuat dengan bentuk <strong>&ldquo;Potongan marketplace&rdquo;</strong>,
+      bukan &ldquo;Kolom baris produk&rdquo;. Angkanya baru mengalir setelah Anda memilah labelnya di
+      langkah 6 — di sanalah <code>Shipping cost</code> akan muncul.
+    </p>
+    <p>
+      Hal yang sama berlaku untuk <strong>diskon</strong> dan <strong>beban komisi</strong>: ketiganya
+      hidup sebagai label, bukan kolom.
+    </p>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Kenapa ada kolom <code>discount_amount</code> di database tapi tidak ditawarkan?</div>
+    <p>
+      Kolomnya memang ada, tapi <strong>tidak satu pun parser menulisinya</strong> — nilainya selalu
+      nol. Menawarkannya ke Anda sama dengan menawarkan angka nol yang gagal diam-diam, jadi ia
+      sengaja dikeluarkan dari daftar. Diskon marketplace masuk lewat jalur label, karena di sanalah
+      angkanya benar-benar berada.
+    </p>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <p>
+      Daftarnya jadi <strong>lima baris</strong>: tiga ber-badge <em>Bawaan</em> tanpa tombol hapus,
+      dua milik Anda yang bisa diedit dan dihapus.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 4 == -->
+<section class="chapter" id="l4">
+  <div class="chapter__no">Langkah 4</div>
+  <h2><span class="step__no">4</span>Master Type COA</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Master Type COA</div>
+
+  <p>
+    Type adalah perantara: <strong>Sumber Data → Type → Akun</strong>. Link menempel di Type, bukan
+    di akun, sehingga satu perubahan berlaku ke semua akun yang memakainya sekaligus.
+  </p>
+
+  <div class="kbd-flow">
+    <span>Sumber Data</span><i>dipilih oleh</i>
+    <span>Type COA</span><i>dipilih oleh</i>
+    <span>Akun COA</span><i>dipakai saat</i>
+    <span>Assign COA</span>
+  </div>
+
+  <p>Buat <strong>tiga</strong> Type. Klik <strong>+ Tambah Type</strong> tiga kali:</p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th>Nama Type</th><th>Link ke Sumber Data</th><th>Untuk apa</th></tr></thead>
+      <tbody>
+        <tr><td><span class="typed">Unearned Revenue MM</span></td><td><strong>Utang</strong></td><td>Sisi penjualan baris vendor MM</td></tr>
+        <tr><td><span class="typed">Beban Komisi</span></td><td>Beban Komisi Marketplace</td><td>Tiga label komisi Tokopedia</td></tr>
+        <tr><td><span class="typed">Beban Pengiriman</span></td><td>Ongkos Kirim</td><td>Label ongkir</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--danger">
+    <div class="note__label">Jangan buat Type ber-link Nett Sales</div>
+    <p>
+      Akun Utang <strong>menggantikan</strong> akun Sales untuk produk vendor MM — keduanya membaca
+      angka yang sama. Kalau dua-duanya ada, akun Sales yang menang dan baris Utang tidak akan
+      terbentuk sama sekali, sehingga jalur MM tidak terlihat bekerja.
+    </p>
+    <p>
+      Type ber-link <strong>HPP</strong> juga tidak perlu: HPP produk MM memang tidak pernah ada.
+    </p>
+  </div>
+
+  <div class="screen">
+    <div class="screen__cap">Tambah Type COA <span>— yang pertama</span></div>
+    <div class="screen__scroll">
+      <div class="gk-modal-stage" style="min-width:600px">
+        <div class="gk-modal">
+          <div class="gk-modal__h">Tambah Type COA <span>&times;</span></div>
+          <div class="gk-modal__b">
+            <div>
+              <span class="gk-label">Nama Type</span>
+              <div class="gk-input gk-input--typed">Unearned Revenue MM</div>
+            </div>
+            <div>
+              <span class="gk-label">Link ke Sumber Data</span>
+              <div class="gk-select gk-select--typed">Utang</div>
+              <p class="fieldnote">Kredit — penampung pendapatan tertangguh, menggantikan akun Sales untuk produk vendor MM.</p>
+              <p class="fieldnote">
+                Isi dropdown ini datang dari Master Sumber Data. Dua yang Anda buat di langkah 3
+                sudah ada di sini.
+              </p>
+            </div>
+            <div>
+              <span class="gk-label">Status</span>
+              <div class="gk-toggle" style="margin-top:4px"><span class="gk-toggle__track"></span> Aktif</div>
+            </div>
+          </div>
+          <div class="gk-modal__f">
+            <span class="gk-btn gk-btn--primary gk-btn--sm">Tambah Type</span>
+            <span class="gk-btn gk-btn--light gk-btn--sm">Batal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <p>Tiga baris, masing-masing menampilkan nama Sumber Data-nya beserta sisi jurnalnya:</p>
+    <ul>
+      <li>Unearned Revenue MM — Utang · Kredit</li>
+      <li>Beban Komisi — Beban Komisi Marketplace · Debit</li>
+      <li>Beban Pengiriman — Ongkos Kirim · Debit</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 5 == -->
+<section class="chapter" id="l5">
+  <div class="chapter__no">Langkah 5</div>
+  <h2><span class="step__no">5</span>COA Accounts</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> COA Accounts</div>
+
+  <p>
+    Akun sungguhan di bagan akun Odoo. Ketiganya untuk marketplace
+    <strong>TikTok Tokopedia GK</strong>.
+  </p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th>Kode</th><th>Nama Akun</th><th>Type</th><th>Berlaku untuk</th><th>Produk Odoo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="typed">28110054</span></td><td><span class="typed">Unearned Revenue - MM eSIM</span></td>
+            <td>Unearned Revenue MM</td><td>kosongkan</td><td><span class="typed">eSIM MM</span></td></tr>
+        <tr><td><span class="typed">610120</span></td><td><span class="typed">Marketplace Commission - TikTok</span></td>
+            <td>Beban Komisi</td><td>kosongkan</td><td><span class="typed">Beban Komisi</span></td></tr>
+        <tr><td><span class="typed">610140</span></td><td><span class="typed">Beban Pengiriman</span></td>
+            <td>Beban Pengiriman</td><td>kosongkan</td><td><span class="typed">Beban Pengiriman</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="screen">
+    <div class="screen__cap">Tambah Akun COA <span>— yang pertama</span></div>
+    <div class="screen__scroll">
+      <div class="gk-modal-stage" style="min-width:660px">
+        <div class="gk-modal gk-modal--lg">
+          <div class="gk-modal__h">Tambah Akun COA <span>&times;</span></div>
+          <div class="gk-modal__b">
+            <div class="gk-grid2">
+              <div>
+                <span class="gk-label">Marketplace</span>
+                <div class="gk-select gk-select--typed">TikTok Tokopedia GK</div>
+              </div>
+              <div>
+                <span class="gk-label">Kode Akun</span>
+                <div class="gk-input gk-input--typed">28110054</div>
+              </div>
+            </div>
+            <div>
+              <span class="gk-label">Nama Akun</span>
+              <div class="gk-input gk-input--typed">Unearned Revenue - MM eSIM</div>
+            </div>
+            <div>
+              <span class="gk-label">Type</span>
+              <div class="gk-select gk-select--typed">Unearned Revenue MM</div>
+              <p class="fieldnote">Sumber datanya ikut terbawa dari Type — tidak perlu dipilih lagi di sini.</p>
+            </div>
+            <div class="gk-grid2">
+              <div>
+                <span class="gk-label">Kategori</span>
+                <div class="gk-select gk-select--ph">Semua kategori</div>
+              </div>
+              <div>
+                <span class="gk-label">Vendor</span>
+                <div class="gk-select gk-select--ph">Semua vendor</div>
+              </div>
+            </div>
+            <p class="fieldnote" style="margin-top:-8px">
+              Keduanya dikosongkan = berlaku untuk semua. Untuk pengujian ini itu yang paling
+              sederhana; mengisinya membuat akun hanya dipakai kombinasi kategori+vendor tertentu.
+            </p>
+            <div>
+              <span class="gk-label">Nama Produk Odoo</span>
+              <div class="gk-input gk-input--typed">eSIM MM</div>
+              <p class="fieldnote">
+                Mengisi kolom <code>Invoice Lines/Product</code> di berkas export. Wajib —
+                langkah 9 akan menahan berkas kalau kosong.
+              </p>
+            </div>
+          </div>
+          <div class="gk-modal__f">
+            <span class="gk-btn gk-btn--primary gk-btn--sm">Tambah Akun</span>
+            <span class="gk-btn gk-btn--light gk-btn--sm">Batal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <p>
+      Tiga baris akun, semuanya marketplace TikTok Tokopedia GK, kolom
+      <em>Link ke (dari Type)</em> terisi Utang / Beban Komisi Marketplace / Ongkos Kirim.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 6 == -->
+<section class="chapter" id="l6">
+  <div class="chapter__no">Langkah 6</div>
+  <h2><span class="step__no">6</span>Pemilahan Label</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Pemilahan Label</div>
+
+  <p>Buka saja — tidak ada tanggal yang perlu disetel lebih dulu.</p>
+
+  <p>
+    Layar ini tidak menyimpan daftar label. Ia <strong>menemukannya dari data invoice</strong> setiap
+    kali dibuka, jadi kolom potongan baru dari marketplace akan muncul sendiri tanpa perlu
+    didaftarkan.
+  </p>
+
+  <div class="note note--ok">
+    <div class="note__label">Layar ini tidak punya penyaring tanggal — dan itu disengaja</div>
+    <p>
+      Pemilahan label adalah <strong>aturan tetap</strong>, bukan pekerjaan per bulan. Sekali sebuah
+      label diputuskan, keputusan itu otomatis dipakai seluruh invoice berikutnya — Anda tidak perlu
+      memilahnya lagi tiap periode.
+    </p>
+    <p>
+      Karena itu daftarnya selalu memuat <strong>seluruh riwayat</strong>, dan penyaringnya hanya dua:
+      <strong>Marketplace</strong> dan <strong>Status</strong>. Kolom <em>Terakhir</em> menunjukkan
+      kapan sebuah label terakhir muncul, jadi Anda tetap bisa membedakan yang masih dipakai dari
+      yang sudah lama tidak ada.
+    </p>
+  </div>
+
+  <div class="screen">
+    <div class="screen__cap">Pemilahan Label <span>— lima label dari invoice Tokopedia</span></div>
+    <div class="screen__scroll">
+      <div class="gk-app" data-active="label">
+        <div class="gk-card gk-card--tight">
+          <div class="gk-crumb"><h6>Pemilahan Label</h6>
+            <div class="gk-crumb__r"><span class="gk-badge gk-badge--primary">Pemilahan Label</span></div></div>
+        </div>
+
+        <div class="gk-card">
+          <div class="gk-grid2">
+            <div><span class="gk-label">Marketplace</span><div class="gk-select">Semua Marketplace</div></div>
+            <div><span class="gk-label">Status</span><div class="gk-select">Semua status</div></div>
+          </div>
+        </div>
+
+        <div class="gk-grid4" style="margin-bottom:16px">
+          <div class="gk-stat"><p class="gk-stat__l">Label ditemukan</p><p class="gk-stat__v">5</p></div>
+          <div class="gk-stat"><p class="gk-stat__l">Belum ditinjau</p><p class="gk-stat__v" style="color:#d97706">5</p></div>
+          <div class="gk-stat"><p class="gk-stat__l">Sudah dipetakan</p><p class="gk-stat__v">0</p></div>
+          <div class="gk-stat"><p class="gk-stat__l">Nilai belum ditinjau</p><p class="gk-stat__v" style="color:#d97706">Rp 16.774</p></div>
+        </div>
+
+        <div class="gk-card">
+          <p class="gk-sect">Label potongan yang ditemukan</p>
+          <p class="gk-sect__d">
+            Urutannya: yang <b>belum ditinjau</b> lebih dulu, lalu yang nilainya terbesar.
+          </p>
+          <table class="gk-tbl gk-tbl--in-card">
+            <thead><tr><th>Label potongan</th><th>Marketplace</th><th class="t-num">Muncul</th><th class="t-num">Nilai</th><th>Terakhir</th><th>Status</th><th>Masuk sebagai</th></tr></thead>
+            <tbody>
+              <tr><td class="t-name">Platform commission fee</td><td>TikTok Tokopedia GK</td><td class="t-num">1×</td><td class="t-num">Rp 7.742</td>
+                  <td>30 Agu 2026</td>
+                  <td><span class="gk-badge gk-badge--warning">Belum ditinjau</span></td>
+                  <td><span class="gk-select gk-select--typed" style="height:auto;min-height:34px;padding:6px 10px;font-size:12.5px;line-height:1.3">Beban Komisi Marketplace (Debit)</span></td></tr>
+              <tr><td class="t-name">Shipping cost</td><td>TikTok Tokopedia GK</td><td class="t-num">1×</td><td class="t-num">Rp 3.000</td>
+                  <td>30 Agu 2026</td>
+                  <td><span class="gk-badge gk-badge--warning">Belum ditinjau</span></td>
+                  <td><span class="gk-select gk-select--typed" style="height:auto;min-height:34px;padding:6px 10px;font-size:12.5px;line-height:1.3">Ongkos Kirim (Debit)</span></td></tr>
+              <tr><td class="t-name">Shipping cost paid by the customer</td><td>TikTok Tokopedia GK</td><td class="t-num">1×</td><td class="t-num">Rp 3.000</td>
+                  <td>30 Agu 2026</td>
+                  <td><span class="gk-badge gk-badge--warning">Belum ditinjau</span></td>
+                  <td><span class="gk-select gk-select--typed" style="height:auto;min-height:34px;padding:6px 10px;font-size:12.5px;line-height:1.3">— Tidak masuk COA —</span></td></tr>
+              <tr><td class="t-name">Mall service fee</td><td>TikTok Tokopedia GK</td><td class="t-num">1×</td><td class="t-num">Rp 1.782</td>
+                  <td>30 Agu 2026</td>
+                  <td><span class="gk-badge gk-badge--warning">Belum ditinjau</span></td>
+                  <td><span class="gk-select gk-select--typed" style="height:auto;min-height:34px;padding:6px 10px;font-size:12.5px;line-height:1.3">Beban Komisi Marketplace (Debit)</span></td></tr>
+              <tr><td class="t-name">Order processing fee</td><td>TikTok Tokopedia GK</td><td class="t-num">1×</td><td class="t-num">Rp 1.250</td>
+                  <td>30 Agu 2026</td>
+                  <td><span class="gk-badge gk-badge--warning">Belum ditinjau</span></td>
+                  <td><span class="gk-select gk-select--typed" style="height:auto;min-height:34px;padding:6px 10px;font-size:12.5px;line-height:1.3">Beban Komisi Marketplace (Debit)</span></td></tr>
+            </tbody>
+          </table>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--rule)">
+            <span style="font-size:13px;color:#6b7a89">5 label diubah, belum disimpan.</span>
+            <span class="gk-btn gk-btn--primary gk-btn--sm">Simpan pemilahan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note note--danger">
+    <div class="note__label">Dua label ongkir itu nilainya sama persis</div>
+    <p>
+      <code>Shipping cost</code> dan <code>Shipping cost paid by the customer</code> keduanya
+      <strong>Rp 3.000</strong>. Besar kemungkinan uang yang sama dilihat dari dua sisi —
+      biaya kirimnya, dan ongkir yang dibayar pembeli. Memetakan keduanya akan menjurnalkan
+      Rp 6.000 untuk pengiriman yang nilainya Rp 3.000.
+    </p>
+    <p>
+      Karena itu di tabel di atas satu dipetakan, satu dikeluarkan. Mana yang benar sebaiknya
+      dipastikan ke Finance — panduan ini memilih salah satu hanya supaya pengujiannya bisa jalan.
+    </p>
+  </div>
+
+  <h3>Tiga status, dan bedanya penting</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:165px">Status</th><th>Artinya</th><th style="width:230px">Kenapa dibedakan</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="gk-badge gk-badge--warning">Belum ditinjau</span></td>
+          <td><strong>Belum pernah dilihat siapa pun.</strong> Tidak ada catatan keputusan untuk label ini.</td>
+          <td>Inilah <strong>antrian kerja</strong> Anda. Angka di statistik &ldquo;Belum ditinjau&rdquo; menghitung baris-baris ini.</td>
+        </tr>
+        <tr>
+          <td><span class="gk-badge gk-badge--gray">Tidak masuk COA</span></td>
+          <td>Sudah ditinjau, dan <strong>sengaja diputuskan tidak dijurnal</strong>.</td>
+          <td>Tanpa dibedakan dari &ldquo;belum ditinjau&rdquo;, label yang sengaja diabaikan akan terus muncul di antrian selamanya.</td>
+        </tr>
+        <tr>
+          <td><span class="gk-badge gk-badge--success">Sudah dipetakan</span></td>
+          <td>Sudah ditinjau dan diarahkan ke sebuah Sumber Data.</td>
+          <td>Potongannya akan jadi baris jurnal saat Assign COA dijalankan.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Kenapa semuanya &ldquo;Belum ditinjau&rdquo; saat pertama dibuka?</h4>
+  <p>
+    Karena tabel keputusan memang masih kosong — Anda belum memutuskan apa pun. Layar ini tidak
+    menyimpan daftar label; ia <strong>menemukannya dari data invoice</strong>. Yang tersimpan hanya
+    jawabannya, dan jawabannya belum ada.
+  </p>
+  <p>
+    Konsekuensinya menguntungkan: kolom potongan baru dari marketplace akan <strong>muncul sendiri
+    sebagai &ldquo;Belum ditinjau&rdquo;</strong> tanpa ada yang perlu mendaftarkannya. Anda tidak
+    bisa kelewatan.
+  </p>
+
+  <h3>Tiga pilihan di dropdown &ldquo;Masuk sebagai&rdquo;</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:220px">Pilihan</th><th>Yang terjadi saat Simpan</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Belum diputuskan</strong></td>
+          <td>
+            <strong>Tidak dikirim sama sekali.</strong> Memilihnya berarti membatalkan perubahan
+            baris itu, bukan menyimpan keputusan. Kalau ia ikut tersimpan, barisnya akan tercatat
+            sebagai sudah ditinjau lalu keluar dari antrian — padahal belum diputuskan apa-apa.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>— Tidak masuk COA —</strong></td>
+          <td>Tersimpan sebagai keputusan. Potongannya tidak akan pernah dijurnal, dan barisnya keluar dari antrian.</td>
+        </tr>
+        <tr>
+          <td><strong>Nama Sumber Data</strong></td>
+          <td>Tersimpan sebagai pemetaan. Mulai Assign COA berikutnya, potongannya jadi baris jurnal dengan akun Sumber Data itu.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Kenapa dropdown-nya tidak memuat Nett Sales, HPP, dan Utang?</div>
+    <p>
+      Ketiganya berbentuk <strong>&ldquo;Kolom baris produk&rdquo;</strong> — angkanya dibaca dari
+      kolom, bukan dikumpulkan dari label. Memetakan sebuah label ke sana tidak akan menghasilkan apa
+      pun, jadi keduanya sengaja tidak ditawarkan.
+    </p>
+    <p>
+      Yang muncul di dropdown ini <strong>hanya Sumber Data berbentuk &ldquo;Potongan
+      marketplace&rdquo;</strong>. Kalau daftarnya kosong, Anda akan melihat peringatan yang
+      mengarahkan ke Master Sumber Data lebih dulu.
+    </p>
+  </div>
+
+  <h3>Dua kondisi lain yang mungkin Anda temui</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:250px">Yang terlihat</th><th>Artinya</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Di bawah nama label tertulis <em>&ldquo;Mengikuti aturan umum untuk semua marketplace&rdquo;</em></td>
+          <td>
+            Keputusannya dibuat tanpa menyebut marketplace, jadi berlaku untuk semuanya. Kalau Anda
+            mengubahnya di sini, perubahannya <strong>hanya berlaku untuk marketplace baris ini</strong> —
+            aturan umumnya tetap utuh untuk yang lain. Pemetaan khusus marketplace selalu menang atas
+            aturan umum.
+          </td>
+        </tr>
+        <tr>
+          <td>Kolom Marketplace berisi <em>&ldquo;belum dipetakan&rdquo;</em></td>
+          <td>
+            Invoice-nya belum tercocokkan ke Order Core, jadi channel-nya belum diketahui. Labelnya
+            tetap bisa dipilah, tapi barisnya belum akan ikut Assign COA sampai pencocokannya selesai.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan setelah Simpan</div>
+    <ul>
+      <li>Notifikasi: <strong>5 label tersimpan — 4 dipetakan, 1 dikeluarkan dari COA</strong></li>
+      <li>Statistik berubah jadi: Belum ditinjau <strong>0</strong>, Sudah dipetakan <strong>4</strong></li>
+      <li>Baris <code>Shipping cost paid by the customer</code> berstatus <em>Tidak masuk COA</em> — bukan <em>Belum ditinjau</em></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 7 == -->
+<section class="chapter" id="l7">
+  <div class="chapter__no">Langkah 7</div>
+  <h2><span class="step__no">7</span>Assign COA</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Assign COA</div>
+
+  <p>Setel periode <strong>1–31 Agustus 2026</strong>, lalu klik <strong>Jalankan Assign COA</strong>.</p>
+
+  <div class="screen">
+    <div class="screen__cap">Assign COA <span>— kesiapan per marketplace</span></div>
+    <div class="screen__scroll">
+      <div class="gk-app" data-active="assign">
+        <div class="gk-card gk-card--tight">
+          <div class="gk-crumb"><h6>Assign COA</h6>
+            <div class="gk-crumb__r"><span class="gk-badge gk-badge--primary">Assign COA</span></div></div>
+        </div>
+        <div class="gk-card">
+          <div class="gk-grid4" style="margin-bottom:20px">
+            <div><span class="gk-label">Dari tanggal</span><div class="gk-input gk-input--typed">01/08/2026</div></div>
+            <div><span class="gk-label">Sampai tanggal</span><div class="gk-input gk-input--typed">31/08/2026</div></div>
+            <div><span class="gk-label">Marketplace</span><div class="gk-select">Semua Marketplace</div></div>
+            <div style="display:flex;align-items:flex-end">
+              <span class="gk-btn gk-btn--primary" style="width:100%;justify-content:center">Jalankan Assign COA</span></div>
+          </div>
+          <table class="gk-tbl gk-tbl--in-card">
+            <thead><tr><th>Channel</th><th>PT</th><th>Nett Sales</th><th>HPP</th><th>Utang</th><th class="t-num">Baris</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="t-name">TikTok Tokopedia GK</td><td>PT Adventure Tour &amp; Travel</td>
+                  <td><span class="gk-badge gk-badge--failure">belum ada</span></td>
+                  <td><span class="gk-badge gk-badge--failure">belum ada</span></td>
+                  <td><span class="gk-badge gk-badge--success">1 akun</span></td>
+                  <td class="t-num">1</td><td><span class="gk-badge gk-badge--success">Siap</span></td></tr>
+              <tr><td class="t-name">Shopee GK</td><td><span style="color:#d21f2a">belum dipetakan</span></td>
+                  <td colspan="3"><span style="color:#b6c2cd">— tidak diperiksa —</span></td>
+                  <td class="t-num">0</td><td><span class="gk-badge gk-badge--gray">Tidak ada baris</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Kolom Nett Sales dan HPP merah — itu normal</div>
+    <p>
+      Anda memang tidak membuat akun untuk keduanya. Marketplace tetap berstatus <strong>Siap</strong>
+      karena kesiapan dinilai <em>per jalur</em>: jalur MM cukup akun Utang. Baris produk ini vendor
+      MM, jadi ia lolos.
+    </p>
+  </div>
+
+  <h3>Arti tiap kondisi di tabel kesiapan</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:175px">Yang terlihat</th><th>Artinya</th><th style="width:220px">Yang perlu dilakukan</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="gk-badge gk-badge--success">1 akun</span> di sebuah kolom</td>
+          <td>Ada akun aktif yang Type-nya menunjuk Sumber Data itu, untuk marketplace ini.</td>
+          <td>Tidak ada — sudah siap.</td>
+        </tr>
+        <tr>
+          <td><span class="gk-badge gk-badge--failure">belum ada</span></td>
+          <td>Tidak ada akun aktif untuk Sumber Data itu di marketplace ini.</td>
+          <td>Tergantung jalurnya — lihat di bawah. Untuk baris vendor MM, kolom Nett Sales dan HPP memang boleh kosong.</td>
+        </tr>
+        <tr>
+          <td><span class="gk-badge gk-badge--success">Siap</span></td>
+          <td>PT sudah dipetakan <strong>dan</strong> salah satu jalurnya lengkap.</td>
+          <td>Jalankan prosesnya.</td>
+        </tr>
+        <tr>
+          <td><span class="gk-badge gk-badge--failure">Dilewati</span></td>
+          <td>Marketplace dilewati <strong>utuh</strong>, tidak diproses separuh. Alasannya tercantum — paling sering PT belum dipetakan.</td>
+          <td>Selesaikan alasannya, lalu jalankan ulang.</td>
+        </tr>
+        <tr>
+          <td><span class="gk-badge gk-badge--gray">Tidak ada baris</span></td>
+          <td>Tidak ada invoice layak di periode itu. Bukan kegagalan.</td>
+          <td>Periksa periodenya, atau memang belum ada datanya.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Kenapa Nett Sales dan HPP merah, tapi statusnya tetap Siap?</div>
+    <p>
+      Kesiapan dinilai <strong>per jalur</strong>, bukan per kolom. Marketplace dianggap siap begitu
+      salah satu jalurnya lengkap — di sini jalur MM, yang cuma butuh akun Utang. Menahan seluruh
+      marketplace karena jalur yang tidak dipakai barisnya belum lengkap hanya menunda pekerjaan
+      yang sebenarnya sudah bisa selesai.
+    </p>
+  </div>
+
+  <h3>Kalau ada baris yang dilewati setelah proses jalan</h3>
+
+  <p>
+    Ringkasan hasilnya menyebut alasannya per kombinasi kategori + vendor. Tiga yang mungkin muncul:
+  </p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:230px">Alasan</th><th>Artinya</th></tr></thead>
+      <tbody>
+        <tr><td><em>butuh akun Nett Sales</em></td><td>Baris vendor biasa, tapi belum ada akun untuk sisi penjualannya</td></tr>
+        <tr><td><em>butuh akun HPP</em></td><td>Baris vendor biasa, akun Sales sudah ada tapi akun modalnya belum</td></tr>
+        <tr><td><em>butuh akun Utang</em></td><td>Baris vendor MM, dan akun Utang-nya belum ada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Satu kombinasi yang belum punya akun <strong>tidak membatalkan marketplace</strong> — sisanya
+    tetap diproses. Sumber Data buatan Anda sendiri juga tidak pernah jadi alasan penolakan: kalau
+    akunnya belum ada, barisnya saja yang tidak terbentuk.
+  </p>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <ul>
+      <li><strong>1 baris ter-assign</strong>, 0 dilewati</li>
+      <li>Total Nett Sales <strong>Rp 88.226</strong></li>
+      <li>Marketplace lain dilaporkan sebagai tidak punya baris — bukan gagal</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 8 == -->
+<section class="chapter" id="l8">
+  <div class="chapter__no">Langkah 8</div>
+  <h2><span class="step__no">8</span>View Data COA</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> View Data COA <b>›</b> Detail COA</div>
+
+  <p>Inilah bukti seluruh rangkaiannya bekerja. Buka baris produknya, klik <strong>Detail COA</strong>.</p>
+
+  <div class="screen">
+    <div class="screen__cap">Detail COA <span>— Journal Items</span></div>
+    <div class="screen__scroll">
+      <div class="gk-modal-stage" style="min-width:820px">
+        <div class="gk-modal gk-modal--lg">
+          <div class="gk-modal__h">Detail COA — 585807188020200664 <span>&times;</span></div>
+          <div class="gk-modal__b">
+            <p class="gk-sect">Journal Items</p>
+            <table class="gk-tbl">
+              <thead><tr><th>Account</th><th>Label</th><th class="t-num">Debit</th><th class="t-num">Credit</th></tr></thead>
+              <tbody>
+                <tr><td class="t-mono">28110054</td><td>Unearned Revenue - MM eSIM</td><td class="t-num">—</td><td class="t-num">88.226,00</td></tr>
+                <tr><td class="t-mono">610120</td><td>Platform commission fee</td><td class="t-num">7.742,00</td><td class="t-num">—</td></tr>
+                <tr><td class="t-mono">610120</td><td>Mall service fee</td><td class="t-num">1.782,00</td><td class="t-num">—</td></tr>
+                <tr><td class="t-mono">610120</td><td>Order processing fee</td><td class="t-num">1.250,00</td><td class="t-num">—</td></tr>
+                <tr><td class="t-mono">610140</td><td>Shipping cost</td><td class="t-num">3.000,00</td><td class="t-num">—</td></tr>
+                <tr style="background:#f7f9fc"><td colspan="2" class="t-name">Total</td>
+                    <td class="t-num t-name">13.774,00</td><td class="t-num t-name">88.226,00</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="gk-modal__f"><span class="gk-btn gk-btn--light gk-btn--sm">Tutup</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note note--warn">
+    <div class="note__label">Debit tidak sama dengan kredit — dan itu memang apa adanya</div>
+    <p>
+      13.774 lawan 88.226. Lawan debitnya adalah <strong>piutang marketplace</strong>, dan Sumber Data
+      untuk piutang belum dibangun. Ini bagian yang memang belum ada, bukan kesalahan pengisian
+      Anda.
+    </p>
+    <p>
+      Yang perlu Anda perhatikan justru ini: <strong>tiga label komisi jadi tiga baris terpisah</strong>
+      walau akunnya sama. Itu disengaja — berkas jurnal Odoo menyebut keterangan per baris, dan
+      menggabungkannya membuang keterangan yang dipakai saat rekonsiliasi.
+    </p>
+  </div>
+
+  <h3>Tiga hal yang mungkin membingungkan di layar ini</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:250px">Yang terlihat</th><th>Kenapa begitu</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Yang dikredit akun <code>28110054</code>, bukan akun Sales</strong></td>
+          <td>
+            Baris ini vendor MM. Akun Utang adalah penampung pendapatan tertangguh yang
+            <em>menggantikan</em> akun Sales — keduanya membaca angka yang sama, jadi kalau dua-duanya
+            terbentuk pendapatannya terhitung dua kali. Aturannya: kalau akun Sales ada, ia yang
+            menang dan baris Utang tidak dibuat. Di sini akun Sales sengaja tidak Anda buat.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Tiga baris komisi terpisah walau akunnya sama</strong></td>
+          <td>
+            Disengaja. Berkas jurnal Odoo menyebut keterangan <em>per baris</em>, dan menggabungkan
+            ketiganya membuang keterangan yang justru dipakai saat rekonsiliasi. Satu label = satu
+            baris.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Debit tidak sama dengan kredit</strong></td>
+          <td>
+            Lawan debitnya adalah <strong>piutang marketplace</strong>, dan Sumber Data untuk piutang
+            belum dibangun. Ini bagian yang memang belum ada — bukan kesalahan pengisian Anda, dan
+            bukan pertanda ada yang salah dipilah.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Yang <strong>tidak</strong> boleh Anda lihat: label yang Anda keluarkan dari COA di langkah 6.
+    Kalau <code>Shipping cost paid by the customer</code> tetap muncul di sini, berarti
+    pemilahannya belum tersimpan.
+  </p>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <ul>
+      <li><strong>Lima baris</strong> Journal Items — bukan dua</li>
+      <li>Akun <code>28110054</code> dikredit 88.226, <strong>bukan</strong> akun Sales</li>
+      <li>Label ongkir yang Anda keluarkan dari COA <strong>tidak muncul</strong> sama sekali</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ LANGKAH 9 == -->
+<section class="chapter" id="l9">
+  <div class="chapter__no">Langkah 9</div>
+  <h2><span class="step__no">9</span>Export Data COA</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Export Data COA</div>
+
+  <p>Periode <strong>1–31 Agustus 2026</strong>, PT <strong>PT Adventure Tour &amp; Travel</strong>.</p>
+
+  <div class="screen">
+    <div class="screen__cap">Export Data COA <span>— pratinjau per PT</span></div>
+    <div class="screen__scroll">
+      <div class="gk-app" data-active="export">
+        <div class="gk-card gk-card--tight">
+          <div class="gk-crumb"><h6>Export Data COA</h6>
+            <div class="gk-crumb__r"><span class="gk-badge gk-badge--primary">Export Data COA</span></div></div>
+        </div>
+        <div class="gk-card">
+          <div class="gk-grid4">
+            <div><span class="gk-label">Dari tanggal</span><div class="gk-input gk-input--typed">01/08/2026</div></div>
+            <div><span class="gk-label">Sampai tanggal</span><div class="gk-input gk-input--typed">31/08/2026</div></div>
+            <div><span class="gk-label">Susunan kolom</span><div class="gk-select">Customer Invoices (Sales)</div></div>
+            <div><span class="gk-label">PT</span><div class="gk-select gk-select--typed">PT Adventure Tour &amp; Travel</div></div>
+          </div>
+        </div>
+        <div class="gk-card">
+          <p class="gk-sect">Pratinjau per PT</p>
+          <table class="gk-tbl gk-tbl--in-card">
+            <thead><tr><th>PT</th><th class="t-num">Siap</th><th class="t-num">Bermasalah</th><th class="t-num">Nilai</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="t-name">PT Adventure Tour &amp; Travel</td><td class="t-num">1</td><td class="t-num">0</td>
+                  <td class="t-num">Rp 88.226,00</td><td><span class="gk-badge gk-badge--success">Siap</span></td>
+                  <td><span class="gk-btn gk-btn--primary gk-btn--xs">Buat Berkas Export</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Yang keluar baru satu baris</div>
+    <p>
+      Susunan kolom yang tersedia baru <strong>Customer Invoices</strong> — 12 kolom sisi penjualan.
+      Jadi berkasnya memuat baris Utang 88.226 saja. Baris komisi dan ongkir belum punya susunan
+      kolomnya sendiri; template jurnal Japantrips adalah pekerjaan berikutnya.
+    </p>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <ul>
+      <li>Berkas <code>.xlsx</code> terunduh, berisi header + <strong>1 baris</strong></li>
+      <li>Kolom <em>Invoice Lines/Product</em> berisi <strong>eSIM MM</strong> — dari akun</li>
+      <li>Kolom <em>Partner</em> berisi <strong>Tokopedia GK</strong> — dari langkah 2</li>
+      <li>Kolom <em>Invoice Lines/Account*</em> berisi <strong>28110054</strong></li>
+      <li>Baris itu terkunci: menjalankan Assign COA lagi tidak akan menyentuhnya</li>
+    </ul>
+  </div>
+
+  <h3>Lima alasan berkas bisa ditahan</h3>
+
+  <p>
+    Pratinjau menyebutkan alasannya beserta contoh barisnya, sebelum berkas dibuat. Ditahan di sini
+    dengan sengaja: satu baris cacat membuat Odoo menolak <strong>seluruh</strong> berkas, dan
+    penyebabnya jauh lebih mahal dicari di Odoo.
+  </p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:290px">Alasan</th><th>Yang harus dibereskan</th></tr></thead>
+      <tbody>
+        <tr><td>Akun COA belum diisi Nama Produk Odoo</td><td>Langkah 5 — buka akunnya, isi kolom Nama Produk Odoo</td></tr>
+        <tr><td>Marketplace belum diisi Nama Partner Odoo</td><td>Langkah 2 — buka pemetaan channel, isi Nama Partner Odoo</td></tr>
+        <tr><td>Baris belum punya akun untuk sisi template ini</td><td>Langkah 5 — akun untuk Sumber Data yang dipakai susunan kolom ini belum ada</td></tr>
+        <tr><td>Nilai untuk sisi template ini belum ada</td><td>Angkanya memang belum dihitung. Untuk sisi HPP, baris vendor MM memang tidak akan pernah punya</td></tr>
+        <tr><td>Quantity atau nilainya nol</td><td>Periksa baris produknya di Report Finance — nilai nol tidak bisa jadi baris invoice</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="note__label">Selisih pembulatan bukan penahan</div>
+    <p>
+      Kalau pratinjau menyebut <em>selisih pembulatan</em>, berkasnya <strong>tetap bisa dibuat</strong>.
+      Odoo menghitung subtotalnya sendiri sebagai Unit Price × Quantity, sementara Nett Sales tidak
+      selalu habis dibagi quantity karena komisi marketplace berpersentase. Selisih receh boleh
+      jalan; yang tidak boleh adalah selisihnya tidak terlihat sampai rekonsiliasi — karena itu
+      dilaporkan sampai ke baris dan angkanya.
+    </p>
+  </div>
+
+  <div class="note note--warn">
+    <div class="note__label">Kalau berkasnya ditahan</div>
+    <p>
+      Pesan penolakan menyebut sebabnya. Dua yang paling sering: <strong>Akun COA belum diisi Nama
+      Produk Odoo</strong> (langkah 5) atau <strong>Marketplace belum diisi Nama Partner Odoo</strong>
+      (langkah 2). Keduanya ditahan di sini dengan sengaja — satu nama produk kosong membuat Odoo
+      menolak seluruh berkas.
+    </p>
+  </div>
+</section>
+
+<!-- =========================================================== RANGKUMAN ==== -->
+<section class="chapter" id="rangkuman">
+  <div class="chapter__no">Penutup</div>
+  <h2>Rangkuman kondisi</h2>
+
+  <p class="lead">
+    Untuk dicari cepat saat sesuatu terlihat aneh di layar. Semuanya sudah dijelaskan di langkahnya
+    masing-masing; ini ringkasannya dalam satu tempat.
+  </p>
+
+  <h3>Kenapa sesuatu tidak muncul</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:290px">Yang Anda cari</th><th>Kenapa tidak muncul</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Ongkir</strong> di dropdown &ldquo;Kolom yang dibaca&rdquo;</td>
+          <td>Ongkir bukan kolom — ia entri di daftar potongan invoice. Buat Sumber Data berbentuk <strong>Potongan marketplace</strong>, lalu petakan label <code>Shipping cost</code> di langkah 6.</td>
+        </tr>
+        <tr>
+          <td><strong>Diskon</strong> di dropdown kolom</td>
+          <td>Sama: hidup sebagai label, bukan kolom. Kolom <code>discount_amount</code> memang ada di database tapi tidak satu pun parser menulisinya, jadi sengaja tidak ditawarkan.</td>
+        </tr>
+        <tr>
+          <td><strong>Nett Sales / HPP / Utang</strong> di dropdown Pemilahan Label</td>
+          <td>Ketiganya berbentuk kolom, bukan label. Memetakan label ke sana tidak menghasilkan apa pun.</td>
+        </tr>
+        <tr>
+          <td><strong>Sumber Data baru</strong> di Master Type COA</td>
+          <td>Pastikan statusnya Aktif. Daftar dropdown hanya memuat yang aktif.</td>
+        </tr>
+        <tr>
+          <td><strong>Sebuah marketplace</strong> di Assign COA</td>
+          <td>Tidak ada invoice layak di periode itu, atau invoice-nya belum tercocokkan ke Order Core sehingga channel-nya belum diketahui.</td>
+        </tr>
+        <tr>
+          <td><strong>Label sama sekali</strong> di Pemilahan Label</td>
+          <td>Belum ada invoice yang punya potongan. Layar ini membaca dari data, bukan dari daftar yang didaftarkan.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Kenapa sesuatu tidak bisa dihapus atau diubah</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:290px">Yang tertahan</th><th>Sebabnya</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Tombol hapus <strong>tidak ada</strong> pada tiga Sumber Data bawaan</td>
+          <td>Engine Assign COA menyebut ketiganya langsung untuk memutuskan jalur standar vs jalur MM. Menghapusnya membuat setiap baris dilewati diam-diam.</td>
+        </tr>
+        <tr>
+          <td>Angka dan sisi jurnal Sumber Data bawaan <strong>tidak bisa diubah</strong></td>
+          <td>Menggesernya akan mengubah seluruh jurnal yang sudah terbentuk. Namanya boleh dirapikan.</td>
+        </tr>
+        <tr>
+          <td>Sumber Data buatan sendiri <strong>menolak dihapus</strong></td>
+          <td>Masih dipakai Type COA atau masih dipetakan ke label potongan. Pesannya menyebut jumlahnya. Kalau hanya ingin menonaktifkan, pakai status.</td>
+        </tr>
+        <tr>
+          <td>Nama Sumber Data diubah tapi <strong>key-nya tetap</strong></td>
+          <td>Type COA menyimpan key. Menggesernya memutus seluruh akun yang sudah memilih Type itu.</td>
+        </tr>
+        <tr>
+          <td>Type COA <strong>menolak dihapus</strong></td>
+          <td>Masih dipakai akun COA. Ubah Type akun itu dulu.</td>
+        </tr>
+        <tr>
+          <td>Akun COA <strong>menolak dihapus</strong></td>
+          <td>Sudah pernah di-assign ke baris produk. Nonaktifkan lewat status.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Kenapa angkanya terlihat aneh</h3>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:290px">Yang terlihat</th><th>Penjelasannya</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Debit tidak sama dengan kredit di Journal Items</td>
+          <td>Lawan debitnya — piutang marketplace — belum punya Sumber Data. Bagian itu memang belum dibangun.</td>
+        </tr>
+        <tr>
+          <td>Satu akun muncul di beberapa baris jurnal</td>
+          <td>Satu label = satu baris, walau akunnya sama. Keterangan per baris itu yang dipakai saat rekonsiliasi.</td>
+        </tr>
+        <tr>
+          <td>Akun Utang dikredit, akun Sales tidak muncul</td>
+          <td>Baris vendor MM. Utang menggantikan Sales; kalau keduanya terbentuk, pendapatannya terhitung dua kali.</td>
+        </tr>
+        <tr>
+          <td>Ongkir tidak mengurangi Nett Sales</td>
+          <td>Disengaja. Angkanya tersimpan supaya bisa dipilah dan dijurnal, tapi tidak ikut mengurangi — supaya angka Nett Sales yang sudah ada tidak bergeser.</td>
+        </tr>
+        <tr>
+          <td>Selisih pembulatan dilaporkan di pratinjau export</td>
+          <td>Bukan penahan. Odoo menghitung subtotalnya sebagai Unit Price × Quantity, dan Nett Sales tidak selalu habis dibagi quantity.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================= BAB 10 ==== -->
+<section class="chapter" id="bab-10">
+  <div class="chapter__no">Penutup</div>
+  <h2>Yang belum bisa diuji, dan kenapa</h2>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:230px">Hal</th><th>Sebabnya</th><th style="width:150px">Perlu apa</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>12 invoice non-Tokopedia</strong></td>
+          <td>Belum tercocokkan ke Order Core, jadi channel-nya belum diketahui — dan channel yang menentukan PT</td>
+          <td>Order Core dengan nomor invoice yang sama</td>
+        </tr>
+        <tr>
+          <td><strong>GlobalTix</strong></td>
+          <td>Sudah terbaca 5 invoice dengan tanggal yang benar. Tinggal disync, lalu dicocokkan ke Order Core seperti yang lain</td>
+          <td>Order Core</td>
+        </tr>
+        <tr>
+          <td><strong>Baris piutang marketplace</strong></td>
+          <td>Belum punya Sumber Data, jadi jurnalnya belum seimbang</td>
+          <td>Pekerjaan berikutnya</td>
+        </tr>
+        <tr>
+          <td><strong>Template jurnal Japantrips</strong></td>
+          <td>Susunan kolom baru satu — Customer Invoices</td>
+          <td>Pekerjaan berikutnya</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--ok">
+    <div class="note__label">Tanggal GlobalTix sudah dibereskan</div>
+    <p>
+      Berkas GlobalTix menulis tanggal sebagai <code>01/08/2026</code> dengan urutan Indonesia —
+      hari dulu. Sebelumnya terbaca <strong>8 Januari</strong>, dan tanggal 13 ke atas gagal total
+      karena dianggap bulan 13.
+    </p>
+    <p>
+      Urutan hari-dulu itu sekarang dinyatakan <strong>hanya di parser GlobalTix</strong>. Empat
+      marketplace lain memakai bentuk yang tidak ambigu (<code>2026-08-01</code>,
+      <code>2026/08/30</code>, <code>21 Agustus 2026</code>, <code>05 Aug 2026</code>) dan sengaja
+      tidak disentuh — satu berkas yang konvensinya berbeda tidak boleh menggeser cara baca tanggal
+      seluruh sistem.
+    </p>
+  </div>
+
+  <p class="foot">
+    Panduan ini disusun dari keadaan lingkungan development pada 22 September 2026 dan pembacaan
+    langsung kode yang berjalan. Kalau ada langkah yang hasilnya berbeda dari yang tertulis,
+    itu justru temuan yang paling berguna — catat nomor langkahnya beserta apa yang muncul di layar.
+  </p>
+</section>
+
+</main>
+</div>
+
+<script src="assets/book.js"></script>
+</body>
+</html>
