@@ -295,6 +295,61 @@
     </div>
   </div>
 
+  <h3>Dua bentuk, dan kapan memakai yang mana</h3>
+
+  <p>
+    Setiap Sumber Data — bawaan maupun yang Anda buat sendiri — berbentuk salah satu dari dua ini.
+    Bentuknya dipilih di dropdown <strong>Angkanya diambil dari</strong>, dan itulah satu-satunya hal
+    yang membedakan cara kerja keduanya.
+  </p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:190px">Bentuk</th><th style="width:230px">Angkanya dari mana</th><th>Yang Anda tentukan</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Potongan marketplace</strong></td>
+          <td>Dikumpulkan dari <strong>beberapa label</strong> potongan invoice</td>
+          <td>Label mana saja yang ikut — Anda pilah sendiri di langkah 6, dan daftarnya bisa
+              bertambah kapan saja saat marketplace menambah potongan baru</td>
+        </tr>
+        <tr>
+          <td><strong>Kolom baris produk</strong></td>
+          <td>Dibaca dari <strong>satu kolom</strong> baris produk</td>
+          <td>Kolom mana yang dibaca — ditunjuk sekali, sesudah itu tetap</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--ok">
+    <div class="note__label">Satu kalimat untuk mengingatnya</div>
+    <p>
+      Pilih <strong>Potongan marketplace</strong> kalau angkanya harus Anda kumpulkan dari beberapa
+      label. Pilih <strong>Kolom baris produk</strong> kalau angkanya sudah ada utuh di satu kolom.
+    </p>
+  </div>
+
+  <p>
+    Ketiga Sumber Data bawaan di layar tadi semuanya berbentuk <strong>kolom baris produk</strong> —
+    itu sebabnya kolom “Angkanya dari” menampilkan nama kolom, bukan jumlah label. Yang membuat
+    ketiganya khusus bukan bentuknya, melainkan statusnya sebagai bawaan: namanya boleh dirapikan,
+    tapi kolom dan sisi jurnalnya tidak bisa digeser. Sumber Data buatan Anda sendiri pun boleh
+    berbentuk kolom baris produk — perilakunya akan sama persis, hanya tidak terkunci.
+  </p>
+
+  <div class="note note--warn">
+    <div class="note__label">Sumber berbentuk potongan butuh dua pekerjaan, bukan satu</div>
+    <p>
+      Labelnya dipilah di <strong>langkah 6</strong>, <em>dan</em> akunnya dipasang lewat
+      <strong>Type COA</strong> di langkah 4–5. Kalau labelnya sudah dipilah tapi belum ada akun yang
+      menunjuk Type-nya, barisnya tetap terbentuk dengan <strong>akun kosong</strong> — sengaja,
+      supaya yang kurang terbaca di <strong>View Data COA</strong> alih-alih hilang tanpa jejak.
+      Yang menahannya adalah langkah 9 <strong>Export</strong>, dengan alasan
+      <em>“Baris belum punya akun untuk sisi template ini”</em>.
+    </p>
+  </div>
+
   <h3>Tambahkan dua</h3>
 
   <p>Klik <strong>+ Tambah Sumber Data</strong>, ulangi dua kali dengan isian berikut:</p>
@@ -355,10 +410,19 @@
   <div class="note">
     <div class="note__label">Kalau Anda memilih "Kolom baris produk"</div>
     <p>
-      Muncul dropdown <strong>Kolom yang dibaca</strong> berisi lima pilihan. Itu daftar tertutup —
-      hanya kolom yang datanya memang terisi saat upload. Sumber Data yang menunjuk kolom kosong
-      akan selalu menghasilkan nol <em>tanpa satu pun pesan error</em>, dan baru ketahuan setelah
-      jurnalnya salah di Odoo. Untuk panduan ini pilih <strong>Potongan marketplace</strong>.
+      Muncul dropdown <strong>Kolom yang dibaca</strong> berisi lima pilihan:
+      <code>nett_sales</code> (penjualan bersih setelah potongan),
+      <code>hpp_amount</code> (harga pokok dari vendor),
+      <code>gross_price</code> (harga jual sebelum potongan apa pun),
+      <code>commission_amount</code> (total potongan yang dialokasikan ke baris itu),
+      dan <code>margin_amount</code> (Nett Sales dikurangi HPP).
+    </p>
+    <p>
+      Itu daftar tertutup — hanya kolom yang datanya memang terisi saat upload.
+      <code>discount_amount</code> misalnya ada di database tapi tidak satu pun parser
+      mengisinya, jadi sengaja tidak ditawarkan: Sumber Data yang menunjuk kolom kosong akan selalu
+      menghasilkan nol <em>tanpa satu pun pesan error</em>, dan baru ketahuan setelah jurnalnya salah
+      di Odoo. Untuk panduan ini pilih <strong>Potongan marketplace</strong>.
     </p>
   </div>
 
@@ -1221,6 +1285,10 @@
         <tr>
           <td><strong>Nett Sales / HPP / Utang</strong> di dropdown Pemilahan Label</td>
           <td>Ketiganya berbentuk kolom, bukan label. Memetakan label ke sana tidak menghasilkan apa pun.</td>
+        </tr>
+        <tr>
+          <td><strong>Semua Sumber Data</strong> di dropdown Pemilahan Label</td>
+          <td>Memang tidak semuanya ditawarkan — hanya yang berbentuk <strong>Potongan marketplace</strong> dan berstatus Aktif. Jadi kalau Master Sumber Data berisi 5 dan yang muncul cuma 2 di luar “Belum diputuskan” dan “Tidak masuk COA”, itu keadaan yang benar: tiga sisanya berbentuk kolom. Lihat <a href="#l3">langkah 3</a>.</td>
         </tr>
         <tr>
           <td><strong>Sumber Data baru</strong> di Master Type COA</td>
