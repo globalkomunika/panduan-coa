@@ -11,6 +11,7 @@ const MENU = [
   { key: 'acc', name: 'COA Accounts', d: 'M4 5h7v15H4zM13 5h7v15h-7M7 9h1M16 9h1' },
   { key: 'assign', name: 'Assign COA', d: 'M5 12l4 4L19 6M4 19h16' },
   { key: 'view', name: 'View Data COA', d: 'M3 6h18M3 12h18M3 18h18M8 6v12' },
+  { key: 'tpl', name: 'Master Template Export', d: 'M4 4h16v16H4zM10 4v16M15 4v16M4 9h16' },
   { key: 'export', name: 'Export Data COA', d: 'M12 3v12m0-12l-4 4m4-4l4 4M4 17v3h16v-3' },
   { key: 'fr', name: 'Report Finance', d: 'M6 20V10m6 10V4m6 16v-7' },
 ];

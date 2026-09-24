@@ -20,7 +20,7 @@
   <div class="toc__group">Pembuka</div>
   <a href="#bab-0">Sebelum mulai</a>
 
-  <div class="toc__group">Sembilan langkah</div>
+  <div class="toc__group">Sepuluh langkah</div>
   <a href="#l1">1 · Master PT</a>
   <a href="#l2">2 · COA Marketplace</a>
   <a href="#l3">3 · Master Sumber Data</a>
@@ -29,7 +29,8 @@
   <a href="#l6">6 · Pemilahan Label</a>
   <a href="#l7">7 · Assign COA</a>
   <a href="#l8">8 · View Data COA</a>
-  <a href="#l9">9 · Export Data COA</a>
+  <a href="#l9">9 · Master Template Export</a>
+  <a href="#l10">10 · Export Data COA</a>
 
   <div class="toc__group">Penutup</div>
   <a href="#rangkuman">Rangkuman kondisi</a>
@@ -42,7 +43,7 @@
   <div class="cover__eyebrow">Panduan Pengisian &amp; Pengujian</div>
   <h1>COA Marketplace<br>dari kosong sampai berkas Odoo</h1>
   <p>
-    Sembilan layar, berurutan, dengan nilai yang sudah disiapkan untuk diketik.
+    Sepuluh layar, berurutan, dengan nilai yang sudah disiapkan untuk diketik.
     Panduan ini memakai <strong>data nyata yang ada di lingkungan development sekarang</strong> —
     bukan contoh karangan — jadi angka yang Anda lihat di layar seharusnya sama persis
     dengan yang tertulis di sini.
@@ -51,7 +52,7 @@
     <div><strong>Untuk</strong>Tim Akunting &amp; Finance</div>
     <div><strong>Lingkungan</strong>Development</div>
     <div><strong>Perkiraan waktu</strong>25–35 menit</div>
-    <div><strong>Versi</strong>22 September 2026</div>
+    <div><strong>Versi</strong>24 September 2026</div>
   </div>
 </header>
 
@@ -226,7 +227,7 @@
               <span class="gk-label">Nama Partner Odoo</span>
               <div class="gk-input gk-input--typed">Tokopedia GK</div>
               <p class="fieldnote">
-                Nama toko <strong>sebagaimana dikenal Odoo</strong>. Belum dipakai sampai langkah 9,
+                Nama toko <strong>sebagaimana dikenal Odoo</strong>. Belum dipakai sampai langkah 10,
                 tapi Export akan menahan berkas kalau kolom ini kosong — jadi isi sekarang.
               </p>
             </div>
@@ -345,7 +346,7 @@
       <strong>Type COA</strong> di langkah 4–5. Kalau labelnya sudah dipilah tapi belum ada akun yang
       menunjuk Type-nya, barisnya tetap terbentuk dengan <strong>akun kosong</strong> — sengaja,
       supaya yang kurang terbaca di <strong>View Data COA</strong> alih-alih hilang tanpa jejak.
-      Yang menahannya adalah langkah 9 <strong>Export</strong>, dengan alasan
+      Yang menahannya adalah langkah 10 <strong>Export</strong>, dengan alasan
       <em>“Baris belum punya akun untuk sisi template ini”</em>.
     </p>
   </div>
@@ -683,7 +684,7 @@
               <div class="gk-input gk-input--typed">eSIM MM</div>
               <p class="fieldnote">
                 Mengisi kolom <code>Invoice Lines/Product</code> di berkas export. Wajib —
-                langkah 9 akan menahan berkas kalau kosong.
+                langkah 10 akan menahan berkas kalau kosong.
               </p>
             </div>
           </div>
@@ -1158,7 +1159,190 @@
 <!-- ============================================================ LANGKAH 9 == -->
 <section class="chapter" id="l9">
   <div class="chapter__no">Langkah 9</div>
-  <h2><span class="step__no">9</span>Export Data COA</h2>
+  <h2><span class="step__no">9</span>Master Template Export</h2>
+
+  <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Master Template Export</div>
+
+  <p>
+    Template menentukan <strong>bentuk</strong> berkas yang dibaca Odoo: kolom apa saja yang ditulis,
+    dan Sumber Data mana yang jadi barisnya. Satu template sudah ada — <strong>Customer
+    Invoices</strong>, 12 kolom yang sama persis dengan berkas contoh dari tim Akunting. Untuk
+    panduan ini Anda tidak perlu membuat apa pun di sini; cukup pastikan template-nya ada dan
+    <strong>Aktif</strong>, lalu lanjut ke langkah 10.
+  </p>
+
+  <div class="screen">
+    <div class="screen__cap">Master Template Export <span>— keadaan awal</span></div>
+    <div class="screen__scroll">
+      <div class="gk-app" data-active="tpl">
+        <div class="gk-card gk-card--tight">
+          <div class="gk-crumb"><h6>Master Template Export</h6>
+            <div class="gk-crumb__r"><span class="gk-badge gk-badge--primary">Master Template Export</span></div></div>
+        </div>
+        <div class="gk-card">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px">
+            <div class="gk-input gk-input--ph" style="max-width:260px">Cari nama template…</div>
+            <div class="gk-select" style="max-width:200px">Semua brand</div>
+            <div style="flex:1"></div>
+            <span class="gk-btn gk-btn--primary">+ Tambah Template</span>
+          </div>
+          <table class="gk-tbl gk-tbl--in-card">
+            <thead><tr><th>Nama template</th><th>Berlaku untuk</th><th>Baris dari</th><th class="t-num">Kolom</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="t-name">Customer Invoices <span class="t-mono">customer_invoices</span></td>
+                  <td>Semua PT &amp; brand</td>
+                  <td><span class="gk-badge gk-badge--info">Nett Sales</span> <span class="gk-badge gk-badge--info">Utang</span></td>
+                  <td class="t-num">12</td><td><span class="gk-badge gk-badge--success">Aktif</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Dua isian yang membentuk sebuah berkas</h3>
+
+  <p>
+    Kalau Anda membuka tombol <strong>Tambah Template</strong>, yang diisi ada dua — dan keduanya
+    menjawab pertanyaan yang berbeda:
+  </p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:190px">Isian</th><th>Menjawab</th><th>Isinya</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Baris berkas ini datang dari</strong></td>
+          <td>Baris apa saja yang keluar</td>
+          <td>Centang Sumber Data. Tiap yang dicentang menghasilkan satu baris untuk tiap baris
+              produk yang memilikinya</td>
+        </tr>
+        <tr>
+          <td><strong>Kolom berkas</strong></td>
+          <td>Bentuk tiap barisnya</td>
+          <td>Daftar header berurutan; tiap header dipasangkan ke satu isi dari daftar yang
+              disediakan</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--ok">
+    <div class="note__label">Kenapa pos baru tidak butuh kolom baru</div>
+    <p>
+      Berkas import Odoo berbentuk <strong>panjang</strong>: satu baris berkas = satu baris jurnal,
+      bukan satu baris per invoice dengan banyak kolom nilai. Jadi menambahkan HPP, ongkir, atau
+      beban lain ke sebuah berkas berarti <strong>menambah baris</strong> — cukup mencentang Sumber
+      Data-nya di isian pertama. Kolomnya tidak berubah sama sekali.
+    </p>
+    <p>
+      Inilah yang membuat pos baru tidak lagi menunggu developer: pos = Sumber Data, dan Sumber Data
+      Anda buat sendiri di <a href="#l3">langkah 3</a>.
+    </p>
+  </div>
+
+  <h3>Isi kolom yang bisa dipilih</h3>
+
+  <p>
+    Daftarnya tertutup, dan dibacakan sistem — bukan diketik. Sebuah isi kolom bukan sekadar nama,
+    melainkan <em>cara mengambil nilai</em>, jadi nama yang tidak dikenal akan menghasilkan kolom
+    kosong yang membuat Odoo menolak seluruh berkas. Kalau yang Anda butuhkan tidak ada di sini,
+    itu permintaan ke tim IT, bukan sesuatu yang bisa diakali dari layar.
+  </p>
+
+  <div class="doc-table-wrap">
+    <table class="doc-table">
+      <thead><tr><th style="width:170px">Datang dari</th><th>Pilihannya</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Invoice</strong></td>
+          <td>Partner (nama toko di Odoo) · Tanggal order · Tanggal order + 7 hari · Nomor order
+              marketplace · Nama PT</td>
+        </tr>
+        <tr>
+          <td><strong>Baris produk</strong></td>
+          <td>SKU · <strong>Nama vendor</strong> · Quantity</td>
+        </tr>
+        <tr>
+          <td><strong>Baris jurnalnya</strong></td>
+          <td>Kode akun COA · Nama akun COA · Nama produk di Odoo · Nama Product | Deskripsi Product
+              · Nilai dibagi quantity · Nilai penuh · Nilai bila sisi debit · Nilai bila sisi kredit</td>
+        </tr>
+        <tr>
+          <td><strong>Tetap</strong></td>
+          <td>Nama Journal template · Selalu kosong</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--ok">
+    <div class="note__label">Nama vendor — baru, 24 September 2026</div>
+    <p>
+      Vendor sebenarnya sudah ikut menentukan akun COA sebuah baris sejak dulu, tapi belum pernah
+      bisa <em>ditulis</em> ke berkas. Sekarang bisa. Yang keluar adalah vendor <strong>baris
+      produknya</strong> — <code>MM</code>, <code>FM</code>,
+      <code>KKDay</code> — bukan vendor yang tercantum di akun COA-nya; sebuah akun
+      boleh berlaku untuk semua vendor, sementara yang perlu terbaca saat rekonsiliasi adalah
+      vendor baris itu sendiri.
+    </p>
+  </div>
+
+  <h3>Kalau berkasnya berbeda untuk JapanTrips</h3>
+
+  <p>
+    Template bisa dibatasi ke satu <strong>brand</strong>, satu <strong>PT</strong>, atau keduanya
+    sekaligus. Keduanya boleh dikosongkan, dan kosong berarti tidak dibatasi — itulah keadaan
+    template <code>customer_invoices</code> sekarang.
+  </p>
+
+  <p>
+    Kalau Anda membuat template yang brand-nya <strong>JT</strong>, baris GK tidak akan ikut ke
+    berkas itu — dan itu <em>bukan</em> dianggap bermasalah, melainkan dilewati. Jadi pratinjau
+    tidak akan menyalahkan Anda atas baris yang memang bukan untuk template itu.
+  </p>
+
+  <div class="note">
+    <div class="note__label">Berkas contoh bisa dibaca headernya, bukan diketik ulang</div>
+    <p>
+      Tombol <strong>Ambil header dari berkas contoh</strong> membaca baris pertama sebuah berkas
+      <code>.xlsx</code> dan mengisikan seluruh daftar kolomnya. Berkasnya
+      <strong>tidak disimpan</strong> — hanya baris headernya yang dibaca. Ini semata alat ketik:
+      satu huruf yang meleset pada <code>Invoice Lines/Account*</code> membuat Odoo
+      menolak seluruh berkas.
+    </p>
+    <p>
+      Isi tiap kolom tetap Anda pilih sendiri sesudahnya. Sistem sengaja tidak menebaknya dari nama
+      header: tebakan yang meleset menghasilkan berkas yang terlihat benar tapi salah pos — bentuk
+      kesalahan yang paling mahal dicari, karena baru ketahuan saat rekonsiliasi.
+    </p>
+  </div>
+
+  <div class="note note--warn">
+    <div class="note__label">Dua hal yang ditahan di layar ini</div>
+    <p>
+      Template <strong>tanpa Sumber Data</strong> ditolak saat disimpan — berkasnya hanya akan berisi
+      header, dan itu baru ketahuan setelah Odoo menolaknya. Template yang <strong>sudah dipakai
+      membuat berkas</strong> tidak bisa dihapus: riwayat export menyimpan kodenya, dan
+      menghapusnya membuat riwayat lama kehilangan nama. Pakai status <strong>Nonaktif</strong>
+      kalau sekadar ingin menghilangkannya dari pilihan.
+    </p>
+  </div>
+
+  <div class="expect">
+    <div class="expect__label">Hasil yang diharapkan</div>
+    <ul>
+      <li>Satu template terdaftar: <strong>Customer Invoices</strong>, 12 kolom, status Aktif</li>
+      <li>Kolom <strong>Baris dari</strong> berisi <strong>Nett Sales</strong> dan <strong>Utang</strong></li>
+      <li>Kolom <strong>Berlaku untuk</strong> berisi <em>Semua PT &amp; brand</em></li>
+    </ul>
+  </div>
+</section>
+
+<!-- =========================================================== LANGKAH 10 == -->
+<section class="chapter" id="l10">
+  <div class="chapter__no">Langkah 10</div>
+  <h2><span class="step__no">10</span>Export Data COA</h2>
 
   <div class="crumbnav">Menu samping <b>›</b> Finance &amp; Akunting <b>›</b> Export Data COA</div>
 
@@ -1176,7 +1360,7 @@
           <div class="gk-grid4">
             <div><span class="gk-label">Dari tanggal</span><div class="gk-input gk-input--typed">01/08/2026</div></div>
             <div><span class="gk-label">Sampai tanggal</span><div class="gk-input gk-input--typed">31/08/2026</div></div>
-            <div><span class="gk-label">Susunan kolom</span><div class="gk-select">Customer Invoices (Sales)</div></div>
+            <div><span class="gk-label">Template</span><div class="gk-select">Customer Invoices (Nett Sales, Utang)</div></div>
             <div><span class="gk-label">PT</span><div class="gk-select gk-select--typed">PT Adventure Tour &amp; Travel</div></div>
           </div>
         </div>
@@ -1198,9 +1382,16 @@
   <div class="note">
     <div class="note__label">Yang keluar baru satu baris</div>
     <p>
-      Susunan kolom yang tersedia baru <strong>Customer Invoices</strong> — 12 kolom sisi penjualan.
-      Jadi berkasnya memuat baris Utang 88.226 saja. Baris komisi dan ongkir belum punya susunan
-      kolomnya sendiri; template jurnal Japantrips adalah pekerjaan berikutnya.
+      Template yang dipakai di sini — <strong>Customer Invoices</strong> — barisnya baru datang dari
+      <strong>Nett Sales</strong> dan <strong>Utang</strong>. Jadi berkasnya memuat baris Utang
+      88.226 saja.
+    </p>
+    <p>
+      Kalau Anda ingin baris komisi dan ongkir ikut keluar, itu <em>tidak</em> perlu template baru
+      maupun kolom baru: buka template-nya di <a href="#l9">langkah 9</a> dan centang Sumber Data
+      <strong>Beban Komisi Marketplace</strong> serta <strong>Ongkos Kirim</strong> yang Anda buat
+      di langkah 3. Syaratnya cuma satu — keduanya harus sudah punya akun lewat Type COA di langkah
+      4–5, kalau tidak barisnya terbentuk dengan akun kosong dan berkasnya ditahan.
     </p>
   </div>
 
@@ -1229,7 +1420,7 @@
       <tbody>
         <tr><td>Akun COA belum diisi Nama Produk Odoo</td><td>Langkah 5 — buka akunnya, isi kolom Nama Produk Odoo</td></tr>
         <tr><td>Marketplace belum diisi Nama Partner Odoo</td><td>Langkah 2 — buka pemetaan channel, isi Nama Partner Odoo</td></tr>
-        <tr><td>Baris belum punya akun untuk sisi template ini</td><td>Langkah 5 — akun untuk Sumber Data yang dipakai susunan kolom ini belum ada</td></tr>
+        <tr><td>Baris belum punya akun untuk sisi template ini</td><td>Langkah 5 — akun untuk Sumber Data yang dipakai template ini belum ada</td></tr>
         <tr><td>Nilai untuk sisi template ini belum ada</td><td>Angkanya memang belum dihitung. Untuk sisi HPP, baris vendor MM memang tidak akan pernah punya</td></tr>
         <tr><td>Quantity atau nilainya nol</td><td>Periksa baris produknya di Report Finance — nilai nol tidak bisa jadi baris invoice</td></tr>
       </tbody>
@@ -1302,6 +1493,14 @@
           <td><strong>Label sama sekali</strong> di Pemilahan Label</td>
           <td>Belum ada invoice yang punya potongan. Layar ini membaca dari data, bukan dari daftar yang didaftarkan.</td>
         </tr>
+        <tr>
+          <td><strong>Template</strong> di dropdown Template pada Export</td>
+          <td>Template-nya nonaktif, belum punya kolom, atau belum menyebut Sumber Data barisnya — dropdown hanya memuat yang siap dipakai. Di <a href="#l9">langkah 9</a> template seperti itu ditandai <em>Belum bisa dipakai</em>.</td>
+        </tr>
+        <tr>
+          <td><strong>Baris sebuah brand</strong> di berkas hasil export</td>
+          <td>Template yang dipakai dibatasi ke brand lain. Baris brand yang tidak cocok dilewati, bukan dianggap bermasalah — jadi ia tidak muncul di kolom Bermasalah mana pun. Periksa cakupan template-nya di <a href="#l9">langkah 9</a>.</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -1335,6 +1534,14 @@
         <tr>
           <td>Akun COA <strong>menolak dihapus</strong></td>
           <td>Sudah pernah di-assign ke baris produk. Nonaktifkan lewat status.</td>
+        </tr>
+        <tr>
+          <td>Template Export <strong>menolak dihapus</strong></td>
+          <td>Sudah dipakai membuat berkas. Riwayat export menyimpan kode template-nya, dan menghapusnya membuat riwayat lama kehilangan nama — tidak ada lagi yang bisa menjelaskan berkas itu dibentuk dengan kolom apa. Pesannya menyebut jumlah berkasnya. Nonaktifkan lewat status kalau hanya ingin menghilangkannya dari pilihan.</td>
+        </tr>
+        <tr>
+          <td>Nama template diubah tapi <strong>kodenya tetap</strong></td>
+          <td>Riwayat export menyimpan kode itu. Menggesernya membuat baris yang sudah pernah keluar terlihat belum pernah diexport — lalu keluar dua kali ke Odoo.</td>
         </tr>
       </tbody>
     </table>
@@ -1396,9 +1603,12 @@
           <td>Pekerjaan berikutnya</td>
         </tr>
         <tr>
-          <td><strong>Template jurnal Japantrips</strong></td>
-          <td>Susunan kolom baru satu — Customer Invoices</td>
-          <td>Pekerjaan berikutnya</td>
+          <td><strong>Template berkas JapanTrips</strong></td>
+          <td>Template-nya sudah bisa Anda buat sendiri di <a href="#l9">langkah 9</a> — yang belum
+              ada adalah tempat menyimpan <strong>External ID</strong> Odoo untuk partner, produk,
+              dan akun. Berkas JT merujuk record lewat ID itu, bukan lewat nama seperti berkas GK,
+              jadi kolomnya akan kosong sampai tempatnya ada</td>
+          <td>Berkas contoh JT dari tim Akunting, lalu kolom penyimpan External ID</td>
         </tr>
       </tbody>
     </table>
@@ -1421,7 +1631,7 @@
   </div>
 
   <p class="foot">
-    Panduan ini disusun dari keadaan lingkungan development pada 22 September 2026 dan pembacaan
+    Panduan ini disusun dari keadaan lingkungan development pada 24 September 2026 dan pembacaan
     langsung kode yang berjalan. Kalau ada langkah yang hasilnya berbeda dari yang tertulis,
     itu justru temuan yang paling berguna — catat nomor langkahnya beserta apa yang muncul di layar.
   </p>
